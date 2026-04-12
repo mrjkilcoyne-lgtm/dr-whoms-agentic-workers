@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr Whom's Agentic Workers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=JetBrains+Mono:wght@300;400;500;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --void:#06060f;
+  --deep:#0a0b1a;
+  --tardis:#003b6f;
+  --arc:#00d4ff;
+  --gold:#c9a84c;
+  --ember:#ff6b35;
+  --chalk:#e8e4df;
+  --smoke:#8a8693;
+  --glass:rgba(255,255,255,.04);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  background:var(--void);
+  color:var(--chalk);
+  font-family:'Libre Baskerville',Georgia,serif;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+
+/* === VORTEX BACKGROUND === */
+.vortex{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(0,59,111,.25) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 90%, rgba(0,212,255,.08) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(201,168,76,.04) 0%, transparent 40%);
+}
+.vortex::after{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-size:128px 128px;
+  opacity:.5;
+}
+
+/* === LAYOUT === */
+.container{max-width:1100px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
+section{padding:6rem 0}
+
+/* === HERO === */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+  text-align:center;padding:4rem 2rem;
+}
+.hero-badge{
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--arc);
+  border:1px solid rgba(0,212,255,.2);
+  padding:.5em 1.5em;border-radius:2px;
+  margin-bottom:2.5rem;
+  animation:fadeSlideUp .8s ease both;
+}
+.hero h1{
+  font-family:'Cinzel',serif;
+  font-weight:900;font-size:clamp(2.4rem,6vw,4.5rem);
+  line-height:1.1;
+  letter-spacing:-.02em;
+  margin-bottom:1.5rem;
+  animation:fadeSlideUp .8s ease .15s both;
+}
+.hero h1 .whom{
+  background:linear-gradient(135deg,var(--arc),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero .sub{
+  font-size:clamp(1rem,2.2vw,1.35rem);
+  color:var(--smoke);
+  max-width:640px;margin:0 auto 1rem;
+  animation:fadeSlideUp .8s ease .3s both;
+}
+.hero .hook{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.85rem;color:var(--arc);
+  opacity:.7;
+  animation:fadeSlideUp .8s ease .45s both;
+}
+.hero .cta-row{
+  margin-top:3rem;
+  display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+  animation:fadeSlideUp .8s ease .6s both;
+}
+
+/* === BUTTONS === */
+a.btn{
+  display:inline-block;text-decoration:none;
+  font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:500;
+  letter-spacing:.05em;padding:.9em 2em;
+  border-radius:2px;transition:all .25s ease;
+}
+a.btn-primary{
+  background:linear-gradient(135deg,var(--tardis),#005a9e);
+  color:#fff;border:1px solid rgba(0,212,255,.2);
+}
+a.btn-primary:hover{
+  background:linear-gradient(135deg,#005a9e,var(--tardis));
+  border-color:var(--arc);
+  box-shadow:0 0 30px rgba(0,212,255,.15);
+  transform:translateY(-1px);
+}
+a.btn-ghost{
+  background:transparent;color:var(--chalk);
+  border:1px solid rgba(255,255,255,.15);
+}
+a.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+/* === SIGILS === */
+.sigil-row{
+  display:flex;justify-content:center;gap:1.8rem;flex-wrap:wrap;
+  margin:4rem 0 2rem;
+  animation:fadeSlideUp .8s ease .75s both;
+}
+.sigil{
+  font-size:1.6rem;
+  width:3rem;height:3rem;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(0,212,255,.12);
+  border-radius:50%;
+  transition:all .4s ease;
+  cursor:default;
+}
+.sigil:hover{
+  border-color:var(--arc);
+  box-shadow:0 0 20px rgba(0,212,255,.2);
+  transform:scale(1.15);
+}
+
+/* === PRICING === */
+.pricing{background:var(--deep)}
+.pricing h2{
+  font-family:'Cinzel',serif;font-size:clamp(1.8rem,4vw,2.8rem);
+  text-align:center;margin-bottom:.5rem;
+}
+.pricing .lead{
+  text-align:center;color:var(--smoke);margin-bottom:3.5rem;
+  font-size:1.05rem;
+}
+.cards{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;
+}
+.card{
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:3px;
+  padding:2.5rem 2rem;
+  display:flex;flex-direction:column;
+  transition:all .3s ease;
+  position:relative;
+}
+.card:hover{
+  border-color:rgba(0,212,255,.15);
+  transform:translateY(-3px);
+  box-shadow:0 12px 40px rgba(0,0,0,.3);
+}
+.card.featured{border-color:var(--arc)}
+.card.featured::before{
+  content:'BEST VALUE';
+  position:absolute;top:-12px;right:1.5rem;
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;
+  letter-spacing:.15em;
+  background:linear-gradient(135deg,var(--arc),var(--tardis));
+  color:#fff;padding:.4em 1em;border-radius:2px;
+}
+.card-name{
+  font-family:'Cinzel',serif;font-size:1.3rem;font-weight:700;
+  margin-bottom:.5rem;
+}
+.card-price{
+  font-family:'JetBrains Mono',monospace;
+  font-size:2.2rem;font-weight:700;
+  margin-bottom:.2rem;
+}
+.card-price span{font-size:.9rem;color:var(--smoke);font-weight:300}
+.card-desc{
+  color:var(--smoke);font-size:.9rem;
+  margin-bottom:1.5rem;line-height:1.6;
+}
+.card ul{
+  list-style:none;margin-bottom:2rem;flex-grow:1;
+}
+.card li{
+  font-family:'JetBrains Mono',monospace;font-size:.75rem;
+  padding:.45em 0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  color:var(--chalk);
+}
+.card li::before{content:'+ ';color:var(--arc)}
+.card a.btn{width:100%;text-align:center}
+
+/* === MAGICK ROSTER === */
+.roster{background:var(--void)}
+.roster h2{
+  font-family:'Cinzel',serif;font-size:clamp(1.8rem,4vw,2.8rem);
+  text-align:center;margin-bottom:.5rem;
+}
+.roster .lead{text-align:center;color:var(--smoke);margin-bottom:3rem;font-size:1.05rem}
+.roster-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:1rem;
+}
+.agent-card{
+  padding:1.5rem;
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:2px;
+  transition:all .3s ease;
+}
+.agent-card:hover{border-color:rgba(201,168,76,.2)}
+.agent-card .sym{
+  font-size:1.4rem;display:inline-block;margin-right:.6rem;
+  vertical-align:middle;
+}
+.agent-card .name{
+  font-family:'Cinzel',serif;font-weight:700;font-size:.95rem;
+  display:inline;vertical-align:middle;
+}
+.agent-card p{
+  font-size:.82rem;color:var(--smoke);margin-top:.6rem;
+  font-family:'JetBrains Mono',monospace;line-height:1.5;
+}
+
+/* === HOW IT WORKS === */
+.how{background:var(--deep)}
+.how h2{font-family:'Cinzel',serif;font-size:clamp(1.6rem,3.5vw,2.4rem);text-align:center;margin-bottom:2.5rem}
+.steps{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:2rem;
+}
+.step{text-align:center}
+.step-num{
+  font-family:'JetBrains Mono',monospace;font-size:2.5rem;font-weight:700;
+  color:var(--tardis);opacity:.4;margin-bottom:.5rem;
+}
+.step h3{font-family:'Cinzel',serif;font-size:1.05rem;margin-bottom:.5rem}
+.step p{font-size:.85rem;color:var(--smoke)}
+.step code{
+  display:inline-block;margin-top:.8rem;
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;
+  background:rgba(0,212,255,.06);
+  border:1px solid rgba(0,212,255,.1);
+  padding:.4em .8em;border-radius:2px;
+  color:var(--arc);
+}
+
+/* === COMPAT === */
+.compat{
+  text-align:center;padding:3rem 0;
+  border-top:1px solid rgba(255,255,255,.04);
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.compat span{
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;
+  letter-spacing:.05em;color:var(--smoke);
+  display:inline-block;margin:0 .8rem .5rem;
+}
+.compat span::before{content:'◆ ';color:var(--tardis);font-size:.5rem;vertical-align:middle}
+
+/* === FOOTER === */
+footer{
+  text-align:center;padding:4rem 2rem;
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;
+  color:var(--smoke);letter-spacing:.05em;
+}
+footer a{color:var(--arc);text-decoration:none}
+footer a:hover{text-decoration:underline}
+
+/* === ANIMATIONS === */
+@keyframes fadeSlideUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.reveal{opacity:0;transform:translateY(20px);transition:all .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* === RESPONSIVE === */
+@media(max-width:640px){
+  section{padding:4rem 0}
+  .hero{min-height:auto;padding:6rem 1.5rem 4rem}
+  .sigil-row{gap:1rem}
+  .sigil{width:2.5rem;height:2.5rem;font-size:1.2rem}
+  .cards{grid-template-columns:1fr}
+  .roster-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="vortex"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">Canzuk Ltd — Est. London</div>
+    <h1>Dr <span class="whom">Whom's</span><br>Agentic Workers</h1>
+    <p class="sub">Your agents are thinking in straight lines. Ours don't.</p>
+    <p class="hook">210+ specialists. 10 that think sideways. 80 skills that took a year to build.</p>
+
+    <div class="sigil-row">
+      <div class="sigil" title="Chaos Paradigm Architect">🜏</div>
+      <div class="sigil" title="Sigil Encoder">☉</div>
+      <div class="sigil" title="Sideways Logic Oracle">☽</div>
+      <div class="sigil" title="Banishing Refactorer">⟡</div>
+      <div class="sigil" title="Hermetic Correspondences">☿</div>
+      <div class="sigil" title="PageIndex Tree Diviner">♆</div>
+      <div class="sigil" title="Paraconsistent Logician">⊹</div>
+      <div class="sigil" title="Thelemic Will Keeper">✴</div>
+      <div class="sigil" title="Tarot Archetype Strategist">⚶</div>
+      <div class="sigil" title="Gematria Namespacer">ℵ</div>
+    </div>
+
+    <div class="cta-row">
+      <a href="#pricing" class="btn btn-primary">See the Arsenal</a>
+      <a href="#roster" class="btn btn-ghost">Meet the Magick Division</a>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <h2>Choose Your Crew</h2>
+    <p class="lead">One purchase. No subscriptions. No telemetry. Files on your machine.</p>
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-name">The Agency</div>
+        <div class="card-price">£49 <span>one-time</span></div>
+        <p class="card-desc">The full roster. 210+ agent personas across every discipline — engineering, design, marketing, product, strategy, sales, game-dev, and more.</p>
+        <ul>
+          <li>28 engineering agents</li>
+          <li>Design, marketing, product, strategy</li>
+          <li>Game dev &amp; spatial computing</li>
+          <li>Sales, support, testing, paid media</li>
+          <li>Multi-tool: Claude Code, Cursor, Gemini CLI, Codex</li>
+        </ul>
+        <a href="https://buy.stripe.com/bJedR9eCy4Ya4hF07YdfG05" class="btn btn-ghost">Get the Agency</a>
+      </div>
+
+      <div class="card">
+        <div class="card-name">Magick Division</div>
+        <div class="card-price">£79 <span>one-time</span></div>
+        <p class="card-desc">10 agents that reason laterally. Paraconsistent logic. Sigil encoding. Hermetic correspondences. Plus PageIndex vectorless RAG. For when straight lines fail.</p>
+        <ul>
+          <li>10 sideways-logic agents</li>
+          <li>PageIndex tree-search RAG engine</li>
+          <li>Contradiction-tolerant reasoning</li>
+          <li>Archetypal pattern-matching</li>
+          <li>Canzuk Ltd original — nowhere else</li>
+        </ul>
+        <a href="https://buy.stripe.com/4gMcN57a6cqC15tdYOdfG06" class="btn btn-ghost">Get the Magick</a>
+      </div>
+
+      <div class="card featured">
+        <div class="card-name">Full Arsenal</div>
+        <div class="card-price">£149 <span>one-time</span></div>
+        <p class="card-desc">Everything. 210+ agents, 10 Magick Division, PageIndex, plus 80 specialist Claude Code skills — policy analysis, quant trading, financial forensics, election modelling, narrative architecture.</p>
+        <ul>
+          <li>Everything in Agency + Magick</li>
+          <li>80 production-tested Claude Code skills</li>
+          <li>Quantitative trading &amp; financial forensics</li>
+          <li>Policy analysis &amp; competitive intelligence</li>
+          <li>Built by someone who runs a sovereign AI</li>
+        </ul>
+        <a href="https://buy.stripe.com/dRm8wPcuq62e3dBdYOdfG07" class="btn btn-primary">Get the Arsenal</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MAGICK ROSTER -->
+<section class="roster" id="roster">
+  <div class="container">
+    <h2>The Magick Division</h2>
+    <p class="lead">Ten agents that exploit adjacency, contradiction, and symbolic substitution rather than linear chains of reasoning.</p>
+    <div class="roster-grid">
+      <div class="agent-card reveal">
+        <span class="sym">☽</span><span class="name">Sideways Logic Oracle</span>
+        <p>Lateral reasoning. Finds the non-obvious adjacent solution when iteration stalls.</p>
+      </div>
+      <div class="agent-card reveal">
+        <span class="sym">☉</span><span class="name">Sigil Encoder</span>
+        <p>Compresses intent into dense symbolic prompt artefacts. 40 pages → one Post-it.</p>
+      </div>
+      <div class="agent-card reveal">
+        <span class="sym">☿</span><span class="name">Hermetic Correspondences</span>
+        <p>Maps structural homologies across domains. "As above, so below" for your architecture.</p>
+      </div>
+      <div class="agent-card reveal">
+        <span class="sym">🜏</span><span class="name">Chaos Paradigm Architect</span>
+        <p>Spins up disposable belief-frames per problem, discards them after. Paradigm shifting on demand.</p>
+      </div>
+      <div class="agent-card reveal">
+        <span class="sym">♆</span><span class="name">PageIndex Tree Diviner</span>
+        <p>Navigates long documents by tree-walk, not similarity search. Finds what grep can't.</p>
+      </div>
+      <div class="agent-card reveal">
+        <span class="sym">⊹</span><span class="name">Paraconsistent Logician</span>
+        <p>Reasons inside contradictions instead of eliminating them. Ships anyway.</p>
+      </div>
+      <div class="agent-card reveal">
+        <span class="sym">✴</span><span class="name">Thelemic Will Keeper</span>
+        <p>Keeps a project aligned with its original intent through a decade of feature requests.</p>
+      </div>
+      <div class="agent-card reveal">
+        <span class="sym">⚶</span><span class="name">Tarot Archetype Strategist</span>
+        <p>Walks your plan through classical situations to catch the blind spots OKRs miss.</p>
+      </div>
+      <div class="agent-card reveal">
+        <span class="sym">ℵ</span><span class="name">Gematria Namespacer</span>
+        <p>Symbolic naming conventions for semantic cohesion. No more silent identifier collisions.</p>
+      </div>
+      <div class="agent-card reveal">
+        <span class="sym">⟡</span><span class="name">Banishing Refactorer</span>
+        <p>Ritualised deletion. Removes what no longer serves — respectfully, with honours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="container">
+    <h2>Three Commands. That's It.</h2>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <h3>Purchase</h3>
+        <p>One-time payment. You get a zip with every agent and skill file.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <h3>Copy</h3>
+        <p>Drop the files into your agent directory. That's the entire install.</p>
+        <code>cp -r agents/* ~/.claude/agents/</code>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <h3>Activate</h3>
+        <p>"Run the Sideways Logic Oracle on this deadlock."</p>
+        <code>Claude, activate the Sigil Encoder</code>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPATIBILITY -->
+<div class="compat">
+  <span>Claude Code</span>
+  <span>Cursor</span>
+  <span>Gemini CLI</span>
+  <span>Codex</span>
+  <span>Aider</span>
+  <span>Windsurf</span>
+  <span>OpenCode</span>
+  <span>Kimi Code</span>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>Built by <a href="#">Canzuk Ltd</a>. Powered by sideways thinking.</p>
+  <p style="margin-top:.8rem;opacity:.5">The upstream agency-agents collection is MIT-licensed. The Magick Division, PageIndex wiring, and Claude Code skills are proprietary Canzuk Ltd work.</p>
+</footer>
+
+<script>
+// Intersection Observer for reveal animations
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
