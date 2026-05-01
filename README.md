@@ -41,6 +41,15 @@ cp -r agents/* ~/.claude/agents/
 - [Magick Division — £79](https://buy.stripe.com/4gMcN57a6cqC15tdYOdfG06)
 - [Full Arsenal — £149](https://buy.stripe.com/dRm8wPcuq62e3dBdYOdfG07)
 
+## The Doctor's Office
+
+A second door, same domain. **One hour with the Doctor** — a working consultation where you bring something specific (diagnosis, plan, code, doc, escalation) and walk out with the next move.
+
+- **Founding 50** — £75 (first fifty bookings only)
+- **Standard** — £150
+
+Book at [/book.html](book.html). Cal.com slot, Stripe payment, transcript on file.
+
 ## Legal
 
 The upstream agency-agents collection is MIT-licensed (credit: msitarzewski). The Magick Division, PageIndex wiring, and Claude Code skills are proprietary Canzuk Ltd work. See LICENSE for details.

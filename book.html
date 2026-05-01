@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book the Doctor — Dr Whom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=JetBrains+Mono:wght@300;400;500;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --void:#06060f;
+  --deep:#0a0b1a;
+  --tardis:#003b6f;
+  --arc:#00d4ff;
+  --gold:#c9a84c;
+  --chalk:#e8e4df;
+  --smoke:#8a8693;
+  --glass:rgba(255,255,255,.04);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  background:var(--void);
+  color:var(--chalk);
+  font-family:'Libre Baskerville',Georgia,serif;
+  line-height:1.7;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+.vortex{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(0,59,111,.25) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 90%, rgba(0,212,255,.08) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(201,168,76,.04) 0%, transparent 40%);
+}
+.vortex::after{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-size:128px 128px;
+  opacity:.5;
+}
+.container{max-width:900px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
+.topbar{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.5rem 2rem;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  position:relative;z-index:2;
+}
+.topbar a{
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.1em;
+  color:var(--smoke);text-decoration:none;
+}
+.topbar a:hover{color:var(--arc)}
+.topbar .brand{
+  font-family:'Cinzel',serif;font-weight:900;font-size:.9rem;letter-spacing:.1em;
+  color:var(--chalk);
+}
+.topbar .brand .whom{
+  background:linear-gradient(135deg,var(--arc),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.head{padding:5rem 0 2rem;text-align:center}
+.head .badge{
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--arc);
+  border:1px solid rgba(0,212,255,.2);
+  padding:.5em 1.5em;border-radius:2px;
+  margin-bottom:2rem;
+}
+.head h1{
+  font-family:'Cinzel',serif;
+  font-weight:900;font-size:clamp(2rem,5vw,3.5rem);
+  line-height:1.1;
+  letter-spacing:-.02em;
+  margin-bottom:1.2rem;
+}
+.head .sub{
+  font-size:clamp(.95rem,1.8vw,1.15rem);
+  color:var(--smoke);
+  max-width:620px;margin:0 auto;
+}
+.tier-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:1rem;
+  margin:3rem 0 2rem;
+}
+.tier{
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:3px;
+  padding:1.5rem;
+  cursor:pointer;
+  transition:all .25s ease;
+  position:relative;
+}
+.tier.active{border-color:var(--arc);box-shadow:0 0 30px rgba(0,212,255,.1)}
+.tier:hover{border-color:rgba(0,212,255,.2)}
+.tier .name{font-family:'Cinzel',serif;font-weight:700;font-size:1.05rem;margin-bottom:.3rem}
+.tier .price{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;margin-bottom:.4rem}
+.tier .price span{font-size:.75rem;color:var(--smoke);font-weight:300}
+.tier .desc{font-size:.8rem;color:var(--smoke);font-family:'JetBrains Mono',monospace;line-height:1.5}
+.tier .remaining{
+  position:absolute;top:.8rem;right:.8rem;
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.1em;
+  color:var(--gold);
+}
+
+.embed-wrap{
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:3px;
+  padding:2rem;
+  margin-bottom:2rem;
+}
+.embed-wrap h2{
+  font-family:'Cinzel',serif;font-size:1.3rem;margin-bottom:.4rem;
+}
+.embed-wrap p.lead{
+  font-size:.85rem;color:var(--smoke);font-family:'JetBrains Mono',monospace;
+  margin-bottom:1.5rem;
+}
+#cal-inline{min-height:600px;border-radius:2px;overflow:hidden}
+
+.pay-row{
+  display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+  margin:2rem 0 4rem;
+}
+a.btn{
+  display:inline-block;text-decoration:none;
+  font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:500;
+  letter-spacing:.05em;padding:.9em 2em;
+  border-radius:2px;transition:all .25s ease;
+}
+a.btn-primary{
+  background:linear-gradient(135deg,var(--tardis),#005a9e);
+  color:#fff;border:1px solid rgba(0,212,255,.2);
+}
+a.btn-primary:hover{
+  background:linear-gradient(135deg,#005a9e,var(--tardis));
+  border-color:var(--arc);
+  box-shadow:0 0 30px rgba(0,212,255,.15);
+  transform:translateY(-1px);
+}
+a.btn-ghost{
+  background:transparent;color:var(--chalk);
+  border:1px solid rgba(255,255,255,.15);
+}
+a.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+.fineprint{
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;
+  text-align:center;color:var(--smoke);max-width:640px;margin:0 auto;
+  letter-spacing:.03em;
+}
+footer{
+  text-align:center;padding:3rem 2rem;
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;
+  color:var(--smoke);letter-spacing:.05em;
+  border-top:1px solid rgba(255,255,255,.04);
+  margin-top:2rem;
+  position:relative;z-index:1;
+}
+footer a{color:var(--arc);text-decoration:none}
+
+@media(max-width:640px){
+  .tier-row{grid-template-columns:1fr}
+  .pay-row{flex-direction:column;align-items:stretch}
+  .pay-row a.btn{text-align:center}
+}
+</style>
+</head>
+<body>
+
+<div class="vortex"></div>
+
+<div class="topbar">
+  <a href="/" class="brand">Dr <span class="whom">Whom</span></a>
+  <a href="/">← back to the agents</a>
+</div>
+
+<section class="head">
+  <div class="container">
+    <p class="badge">The Doctor's Office</p>
+    <h1>One Hour. One Problem. One Solution.</h1>
+    <p class="sub">Bring something odd, something wrong, something alien — diagnosis, plan, code, document, escalation. Whatever you walked in for, you walk out with the next move.</p>
+  </div>
+</section>
+
+<section class="container">
+
+  <div class="tier-row" role="radiogroup" aria-label="Pricing tier">
+    <!-- Founding 50 — REPLACE Stripe Payment Link below once Matt creates the SKU in dashboard -->
+    <div class="tier active" id="tier-founding50" data-tier="founding50" data-stripe="REPLACE_WITH_STRIPE_PAYMENT_LINK_FOUNDING50">
+      <div class="remaining"><!-- Remaining count is a placeholder until backend lands -->50/50 LEFT</div>
+      <div class="name">Founding 50</div>
+      <div class="price">£75 <span>one-time</span></div>
+      <div class="desc">The first fifty bookings. After that, the door closes on this price.</div>
+    </div>
+
+    <!-- Standard — REPLACE Stripe Payment Link below once Matt creates the SKU in dashboard -->
+    <div class="tier" id="tier-standard" data-tier="standard" data-stripe="REPLACE_WITH_STRIPE_PAYMENT_LINK_STANDARD">
+      <div class="name">Standard</div>
+      <div class="price">£150 <span>one-time</span></div>
+      <div class="desc">A working hour with the Doctor. Bring something specific.</div>
+    </div>
+  </div>
+
+  <div class="embed-wrap">
+    <h2>Pick the hour.</h2>
+    <p class="lead">Pay first, then pick a slot — or pick a slot first, then pay. The order doesn't matter.</p>
+
+    <!-- Cal.com inline embed.
+         REPLACE the namespace and link below:
+         - link="mrjkilcoyne/hour-with-the-doctor" should become "<your-cal-username>/<your-event-slug>"
+         - Confirm the event type is created at cal.com first.
+    -->
+    <div id="cal-inline"
+         data-cal-namespace="hour-with-the-doctor"
+         data-cal-link="mrjkilcoyne/hour-with-the-doctor"
+         data-cal-config='{"layout":"month_view","theme":"dark"}'
+         style="width:100%;overflow:scroll"></div>
+  </div>
+
+  <div class="pay-row">
+    <a href="REPLACE_WITH_STRIPE_PAYMENT_LINK_FOUNDING50" class="btn btn-ghost" id="pay-founding50">Pay £75 — Founding 50</a>
+    <a href="REPLACE_WITH_STRIPE_PAYMENT_LINK_STANDARD" class="btn btn-primary" id="pay-standard">Pay £150 — Standard</a>
+  </div>
+
+  <p class="fineprint">No subscription. No upsell. One hour, one fee, one outcome. Reschedule or cancel anytime up to 24 hours before via the email link in your confirmation. Transcript saved to your account so you can find it again.</p>
+
+</section>
+
+<footer>
+  <p>Built by <a href="/">Canzuk Ltd</a>. Powered by sideways thinking.</p>
+</footer>
+
+<!-- Cal.com embed loader. Standard inline embed — see https://cal.com/docs/core-features/embed -->
+<script type="text/javascript">
+(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+Cal("init", "hour-with-the-doctor", {origin:"https://cal.com"});
+Cal.ns["hour-with-the-doctor"]("inline", {
+  elementOrSelector:"#cal-inline",
+  config: {"layout":"month_view","theme":"dark"},
+  // REPLACE the calLink below with "<your-cal-username>/<your-event-slug>"
+  calLink: "mrjkilcoyne/hour-with-the-doctor",
+});
+Cal.ns["hour-with-the-doctor"]("ui", {"theme":"dark","cssVarsPerTheme":{"light":{"cal-brand":"#003b6f"},"dark":{"cal-brand":"#00d4ff"}},"hideEventTypeDetails":false,"layout":"month_view"});
+</script>
+
+<!-- Tier toggle and ?tier=… deep-link support -->
+<script>
+const params = new URLSearchParams(location.search);
+const initial = params.get('tier') === 'standard' ? 'standard' : 'founding50';
+function setTier(t){
+  document.getElementById('tier-founding50').classList.toggle('active', t === 'founding50');
+  document.getElementById('tier-standard').classList.toggle('active', t === 'standard');
+}
+setTier(initial);
+document.getElementById('tier-founding50').addEventListener('click', () => setTier('founding50'));
+document.getElementById('tier-standard').addEventListener('click', () => setTier('standard'));
+</script>
+
+</body>
+</html>
